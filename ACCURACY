@@ -1,0 +1,46 @@
+import pandas as pd
+import xgboost as xgb
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics import accuracy_score
+from sklearn.model_selection import train_test_split
+
+# Step 1: Define the email data
+email_data = {
+    'text': [
+        "Get rich quick! Claim your prize now!",
+        "Meeting tomorrow at 2 PM in the conference room.",
+        "Secret method to lose weight fast!",
+        "Important project meeting on Monday.",
+        "Huge sale happening this weekend!",
+        "Your invoice is due for payment.",
+        # Add more email examples here...
+    ],
+    'label': ['spam', 'ham', 'spam', 'ham', 'spam', 'ham']
+}
+
+# Step 2: Create a DataFrame from the email data
+df = pd.DataFrame(email_data)
+
+# Step 3: Create a TF-IDF vectorizer for feature extraction
+tfidf_vectorizer = TfidfVectorizer(max_features=1000, stop_words='english')
+
+# Step 4: Fit and transform the vectorizer on the email data
+X_tfidf = tfidf_vectorizer.fit_transform(df['text'])
+
+# Step 5: Initialize a custom label encoder with explicit class labels
+label_mapping = {'ham': 0, 'spam': 1}
+df['label'] = df['label'].map(label_mapping)
+
+# Step 6: Split the data into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(X_tfidf, df['label'], test_size=0.2, random_state=42)
+
+# Step 7: Initialize and train an XGBoost classifier
+model = xgb.XGBClassifier()
+model.fit(X_train, y_train)
+
+# Step 8: Make predictions on the test data
+y_pred = model.predict(X_test)
+
+# Step 9: Calculate accuracy
+accuracy = accuracy_score(y_test, y_pred)
+print("Test Accuracy:", accuracy)
