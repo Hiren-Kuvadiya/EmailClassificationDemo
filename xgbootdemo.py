@@ -20,6 +20,7 @@ df2['label'] = df2['label'].apply(lambda x: 0 if x == 'ham' else 1)
 
 df_concat = pd.concat([df, df1, df2], axis=0)
 
+
 # Save the DataFrame to a CSV file
 #df.to_csv('email_classification_data.csv', index=False)
 

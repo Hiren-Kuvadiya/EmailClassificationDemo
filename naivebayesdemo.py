@@ -10,7 +10,7 @@ df = pd.read_csv('spam.csv')
 df1 = pd.read_csv('email_dataset.csv')
 df2 = pd.read_csv('emails.csv')
 
-df = pd.concat([df, df1], axis=0)
+df = pd.concat([df, df1, df2], axis=0)
 
 # Step 3: Create a TF-IDF vectorizer for feature extraction
 tfidf_vectorizer = TfidfVectorizer(max_features=1000, stop_words='english')
